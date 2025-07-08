@@ -1,0 +1,47 @@
+document.getElementById('upload').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+        const data = new Uint8Array(evt.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const json = XLSX.utils.sheet_to_json(sheet);
+        renderTable(json);
+    };
+
+    reader.readAsArrayBuffer(file);
+});
+
+function renderTable(data) {
+    const tbody = document.querySelector('#callTable tbody');
+    tbody.innerHTML = '';
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+
+        const tdAgent = document.createElement('td');
+        tdAgent.textContent = row['Agent Name'];
+        tr.appendChild(tdAgent);
+
+        const tdClient = document.createElement('td');
+        tdClient.textContent = row['Client'];
+        tr.appendChild(tdClient);
+
+        const tdRecording = document.createElement('td');
+        tdRecording.innerHTML = `<audio controls src="${row['Call Recording']}"></audio>`;
+        tr.appendChild(tdRecording);
+
+        const tdResult = document.createElement('td');
+        const select = document.createElement('select');
+        ['Converted', 'Not interested', 'Dropped call'].forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option;
+            opt.textContent = option;
+            select.appendChild(opt);
+        });
+        tdResult.appendChild(select);
+        tr.appendChild(tdResult);
+
+        tbody.appendChild(tr);
+    });
+}
