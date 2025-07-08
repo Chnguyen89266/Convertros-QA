@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Call Center QA App</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<h1>Call Center QA</h1>
+
+<input type="file" id="upload" />
+<table id="callTable">
+<thead>
+<tr>
+<th>Agent Name</th>
+<th>Client</th>
+<th>Call Recording</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
